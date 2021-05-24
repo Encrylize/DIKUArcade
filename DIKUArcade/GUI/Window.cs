@@ -62,6 +62,15 @@ namespace DIKUArcade.GUI {
             Window._contextWin.Context.MakeCurrent();
         }
 
+        /// <summary>
+        /// Make the window context current to this thread.
+        /// This is necessary to allow texture loading across multiple threads.
+        /// See https://www.khronos.org/opengl/wiki/OpenGL_and_multithreading
+        /// </summary>
+        public static void MakeContextCurrent() {
+            Window._contextWin.Context.MakeCurrent();
+        }
+
         #endregion
 
 
@@ -87,6 +96,9 @@ namespace DIKUArcade.GUI {
             isRunning = true;
             window.Context.MakeCurrent();
             window.IsVisible = true;
+
+            // make context static to ensure correct context when multithreading
+            _contextWin = window;
 
             GL.Viewport(0, 0, window.Size.X, window.Size.Y);
             GL.MatrixMode(MatrixMode.Projection);
@@ -145,8 +157,8 @@ namespace DIKUArcade.GUI {
         #region WINDOW_RESIZE
 
         private void DefaultResizeHandler(ResizeEventArgs args) {
-            if (!Resizable) { 
-                return; 
+            if (!Resizable) {
+                return;
             }
 
             // GL.Viewport(0, 0, window.Size.X, window.Size.Y);
@@ -168,7 +180,7 @@ namespace DIKUArcade.GUI {
 
         #region KEY_EVENT_HANDLERS
 
-        
+
 
         private void DefaultKeyEventHandler(KeyboardKeyEventArgs args) {
             switch(args.Key) {

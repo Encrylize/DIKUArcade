@@ -4,6 +4,7 @@ using System.IO;
 using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL;
 using DIKUArcade.Entities;
+using DIKUArcade.GUI;
 
 namespace DIKUArcade.Graphics {
     public class Texture {
@@ -15,6 +16,10 @@ namespace DIKUArcade.Graphics {
         private int textureId;
 
         public Texture(string filename) {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
+
             // create a texture id
             textureId = GL.GenTexture();
 
@@ -152,7 +157,7 @@ namespace DIKUArcade.Graphics {
                    Matrix4.CreateTranslation(shape.Position.X + halfX, shape.Position.Y + halfY,
                        0.0f);
         }
-        
+
         // Render things that are affected by a camera (if the game has one)
         private Matrix4 CreateMatrix(Shape shape, Camera camera)
         {
@@ -197,7 +202,7 @@ namespace DIKUArcade.Graphics {
             // unbind this texture
             UnbindTexture();
         }
-        
+
         public void Render(Shape shape)
         {
 
