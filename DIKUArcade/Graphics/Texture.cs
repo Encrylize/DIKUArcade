@@ -75,6 +75,10 @@ namespace DIKUArcade.Graphics {
 
         public Texture(string filename, int currentStride, int stridesInImage)
         {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
+
             if (currentStride < 0 || currentStride >= stridesInImage || stridesInImage < 0)
             {
                 throw new ArgumentOutOfRangeException(
@@ -137,11 +141,19 @@ namespace DIKUArcade.Graphics {
 
         private void BindTexture()
         {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
+
             GL.BindTexture(TextureTarget.Texture2D, textureId);
         }
 
         private void UnbindTexture()
         {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
+
             GL.BindTexture(TextureTarget.Texture2D, 0); // 0 is invalid texture id
         }
 
@@ -178,6 +190,9 @@ namespace DIKUArcade.Graphics {
 
         public void Render(Shape shape, Camera camera)
         {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
 
             // bind this texture
             BindTexture();
@@ -205,6 +220,9 @@ namespace DIKUArcade.Graphics {
 
         public void Render(Shape shape)
         {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
 
             // bind this texture
             BindTexture();

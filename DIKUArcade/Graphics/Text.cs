@@ -6,6 +6,7 @@ using OpenTK.Graphics.OpenGL;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using OpenTK.Mathematics;
+using DIKUArcade.GUI;
 
 namespace DIKUArcade.Graphics {
     public class Text {
@@ -47,6 +48,9 @@ namespace DIKUArcade.Graphics {
             fontSize = 50;
             font = new Font("Arial", fontSize);
 
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
             // create a texture id
             textureId = GL.GenTexture();
 
@@ -77,6 +81,9 @@ namespace DIKUArcade.Graphics {
 
         // This method assumes that
         private void CreateBitmapTexture() {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
             BindTexture();
 
             System.Drawing.Bitmap textBmp = new System.Drawing.Bitmap(500, 500); // match window size
@@ -108,10 +115,16 @@ namespace DIKUArcade.Graphics {
         }
 
         private void BindTexture() {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
             GL.BindTexture(TextureTarget.Texture2D, textureId);
         }
 
         private void UnbindTexture() {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
             GL.BindTexture(TextureTarget.Texture2D, 0); // 0 is invalid texture id
         }
 
@@ -268,13 +281,17 @@ namespace DIKUArcade.Graphics {
                    Matrix4.CreateTranslation(shape.Position.X + halfX, shape.Position.Y + halfY,
                        0.0f);
         }
-        
+
         public void ScaleText(float scale) {
             shape.Position *= scale;
             shape.Scale(scale);
         }
-        
+
         public void RenderText() {
+            // make the context current
+            // required if the expected context is in another thread
+            Window.MakeContextCurrent();
+
             // bind this texture
             BindTexture();
 
